@@ -53,7 +53,8 @@ RUN redis-server /etc/redis/redis.conf && \
     openvasmd --create-user=admin --role=Admin && \
     openvasmd --user=admin --new-password=admin
 
-RUN openvassd && openvasmd && timeout 10m openvasmd --rebuild --progress -v ; exit 0
+#RUN openvassd && openvasmd && timeout 10m openvasmd --rebuild --progress -v ; exit 0
+RUN openvassd && openvasmd && openvasmd --rebuild --progress -v
 
 EXPOSE 80 443 9390 9391 9392
 CMD ["/usr/local/bin/openvas8.run"]
