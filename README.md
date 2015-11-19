@@ -27,10 +27,10 @@ with RAM 12GB).
 
 ### Access
 
-Please, before your first login, change this password.
-
 * **USER:** admin
 * **PASS:** admin
+
+Change this password after your first login.
 
 ### Check openVAS installation
 
