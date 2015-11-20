@@ -37,7 +37,6 @@ RUN openvas-mkcert-client -n -i
 RUN openvas-certdata-sync
 RUN openvas-nvt-sync
 RUN openvas-scapdata-sync
-RUN openvas-portnames-update /tmp/service-names-port-numbers.xml
 
 RUN wget -qO - http://www.openvas.org/OpenVAS_TI.asc | gpg --homedir=/usr/local/etc/openvas/gnupg --import -
 RUN echo 'C3B468D2288C68B9D526452248479FF648DB4530:6' | \
@@ -53,8 +52,8 @@ RUN redis-server /etc/redis/redis.conf && \
     openvasmd --create-user=admin --role=Admin && \
     openvasmd --user=admin --new-password=admin
 
-#RUN openvassd && openvasmd && timeout 10m openvasmd --rebuild --progress -v ; exit 0
 RUN openvassd && openvasmd && openvasmd --rebuild --progress -v
+RUN openvas-portnames-update /tmp/service-names-port-numbers.xml
 
 EXPOSE 80 443 9390 9391 9392
 CMD ["/usr/local/bin/openvas8.run"]
