@@ -20,13 +20,14 @@ ADD http://wald.intevation.org/frs/download.php/2149/ospd-paloalto-1.0b1.tar.gz 
 ADD http://wald.intevation.org/frs/download.php/2004/ospd-w3af-1.0.0.tar.gz /usr/local/src/
 ADD http://wald.intevation.org/frs/download.php/2181/ospd-acunetix-1.0b1.tar.gz /usr/local/src/
 ADD http://nmap.org/dist/nmap-5.51.6.tgz /usr/local/src/
+ADD http://downloads.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz /usr/local/src/
 ADD http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xml /tmp/
 
 COPY bin/* /usr/local/bin/
 RUN find /usr/local/bin -type f -not -executable -exec chmod +x {} \;
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    alien bison build-essential clang cmake doxygen flex gnupg libgcrypt11-dev libglib2.0-dev libgnutls28-dev \
+    alien bison build-essential clang cmake doxygen flex gnupg libcurl4-gnutls-dev libgcrypt11-dev libglib2.0-dev libgnutls28-dev \
     libgpgme11-dev libhiredis-dev libksba-dev libldap2-dev libmicrohttpd-dev libpcap-dev libsqlite3-dev \
     libssh-dev libxml2-dev libxslt1-dev net-tools nsis openssh-client pkg-config python-pip redis-server rpm \
     rsync sqlfairy sqlite3 texlive-latex-base uuid-dev wget xmltoman xsltproc
@@ -51,8 +52,11 @@ RUN for SRC in ospd-1.0.0 ospd-1.0.1 ospd-1.0.2 ospd-ancor-1.0.0 ospd-debsecan-1
 	python setup.py install ; \
     done
 
-RUN tar -C /usr/local/src -zxf /usr/local/src/nmap-5.51.6.tgz
-RUN cd /usr/local/src/nmap-5.51.6 ; ./configure && make && make install 
+RUN for SRC in nmap-5.51.6 dirb222 ; do tar -C /usr/local/src -zxf /usr/local/src/${SRC}.tar.gz ; done
+RUN cd /usr/local/src/nmap-5.51.6 ; ./configure && make && make install
+RUN cd /usr/local/src/dirb222 ; chmod +x configure ; \
+    ./configure && make && make install ; \
+    mkdir /usr/share/dirb ; cp -r wordlists /usr/share/dirb
 
 RUN openvas-mkcert -q
 RUN openvas-mkcert-client -n -i
