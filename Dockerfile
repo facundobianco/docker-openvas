@@ -55,5 +55,5 @@ RUN redis-server /etc/redis/redis.conf && \
 RUN openvassd && openvasmd && openvasmd --rebuild --progress -v
 RUN openvas-portnames-update /tmp/service-names-port-numbers.xml
 
-EXPOSE 80 443 9390 9391 9392
+EXPOSE 80 443
 CMD ["/usr/local/bin/openvas8.run"]
