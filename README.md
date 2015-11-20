@@ -21,8 +21,8 @@ On a terminal, run
 docker build -t openvas .
 ```
 
-I waited >= 495 minutes (8hs) to build this container on a (CPU [Intel i5-2430M](http://ark.intel.com/products/53450) 
-with RAM 12GB). The long process is `openvasmd --rebuild` because it need to reload 43955 NVTs.
+I waited >= 495 minutes (8hs) to build this container on a CPU [Intel i5-2430M](http://ark.intel.com/products/53450) 
+with RAM 12GB. The longest process was `openvasmd --rebuild` because it needs to reload 43955 NVTs.
 
 Start the container
 
