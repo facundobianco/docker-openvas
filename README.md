@@ -10,7 +10,6 @@ The `Dockerfile` was created following the steps in:
 
 ### Plus
 
-* Installs NMap
 * Uses openVAS' GPG key
 * Updates service name and transport protocol port number registry
 
@@ -23,20 +22,33 @@ docker build -t openvas .
 ```
 
 I waited >= 495 minutes (8hs) to build this container on a (CPU [Intel i5-2430M](http://ark.intel.com/products/53450) 
-with RAM 12GB).
+with RAM 12GB). The long process is `openvasmd --rebuild` because it need to reload 43955 NVTs.
 
-The long process is `openvasmd --rebuild` because it need to reload 43955 NVTs.
+Start the container
+
+```
+docker run -d -p 80:80 -p 443:443 --name openvas openvas
+```
 
 ### Access
+
+Login into [GSA](https://localhost/login/login.html)
 
 * **USER:** admin
 * **PASS:** admin
 
-Change this password after your first login.
+[Change this password](https://localhost/omp?cmd=edit_user&user_id=0c185d9e-9903-47d2-9eea-9a7521539e86)
+after your first login.
 
 ### Check openVAS installation
 
-Inside the container run
+Connect to container
+
+```
+docker exec -it openvas /bin/bash
+```
+
+and run
 
 ```
 checkopenvas8
@@ -44,4 +56,10 @@ checkopenvas8
 
 ## TODO
 
-* Add niktos
+Install those tools
+
+* niktos
+* netstat
+* NMap 5.51 (for using nmap NSE NVTs)
+* `pdflatex` (from [texlive-latex-base](https://packages.debian.org/jessie/texlive-latex-base))
+* openssh-client
