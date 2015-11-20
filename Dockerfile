@@ -10,16 +10,17 @@ ADD http://wald.intevation.org/frs/download.php/2071/openvas-scanner-5.0.3.tar.g
 ADD http://wald.intevation.org/frs/download.php/2075/openvas-manager-6.0.3.tar.gz /usr/local/src/
 ADD http://wald.intevation.org/frs/download.php/1987/openvas-cli-1.4.0.tar.gz /usr/local/src/
 ADD http://wald.intevation.org/frs/download.php/2079/greenbone-security-assistant-6.0.3.tar.gz /usr/local/src/
+ADD http://nmap.org/dist/nmap-5.51.6.tgz /usr/local/src/
 ADD http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xml /tmp/
 
 COPY bin/* /usr/local/bin/
 RUN find /usr/local/bin -type f -not -executable -exec chmod +x {} \;
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    bison build-essential clang cmake doxygen flex gnupg libgcrypt11-dev libglib2.0-dev libgnutls28-dev \
+    alien bison build-essential clang cmake doxygen flex gnupg libgcrypt11-dev libglib2.0-dev libgnutls28-dev \
     libgpgme11-dev libhiredis-dev libksba-dev libldap2-dev libmicrohttpd-dev libpcap-dev libsqlite3-dev \
-    libssh-dev libxml2-dev libxslt1-dev nmap nsis pkg-config redis-server rsync sqlfairy sqlite3 uuid-dev \
-    wget xmltoman xsltproc
+    libssh-dev libxml2-dev libxslt1-dev net-tools nsis openssh-client pkg-config redis-server rpm rsync sqlfairy \
+    sqlite3 texlive-latex-base uuid-dev wget xmltoman xsltproc
     
 RUN for SRC in openvas-libraries-8.0.3 openvas-manager-6.0.3 openvas-scanner-5.0.3 openvas-cli-1.4.0 \
                greenbone-security-assistant-6.0.3 ; \
@@ -31,6 +32,9 @@ RUN for SRC in openvas-libraries-8.0.3 openvas-manager-6.0.3 openvas-scanner-5.0
        make doc &&\
        make install ; \
     done
+
+RUN tar -C /usr/local/src -zxf /usr/local/src/nmap-5.51.6.tgz
+RUN cd /usr/local/src/nmap-5.51.6 ; ./configure && make && make install 
 
 RUN openvas-mkcert -q
 RUN openvas-mkcert-client -n -i

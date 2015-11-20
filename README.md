@@ -10,8 +10,10 @@ The `Dockerfile` was created following the steps in:
 
 ### Plus
 
-* Uses openVAS' GPG key
+* Use NMap with its NVTs
+* Use openVAS' GPG key
 * Updates service name and transport protocol port number registry
+* Generates reports in PDF format
 
 ## How to use it
 
@@ -59,7 +61,3 @@ checkopenvas8
 Install those tools
 
 * niktos
-* netstat
-* NMap 5.51 (for using nmap NSE NVTs)
-* `pdflatex` (from [texlive-latex-base](https://packages.debian.org/jessie/texlive-latex-base))
-* openssh-client
