@@ -10,6 +10,15 @@ ADD http://wald.intevation.org/frs/download.php/2071/openvas-scanner-5.0.3.tar.g
 ADD http://wald.intevation.org/frs/download.php/2075/openvas-manager-6.0.3.tar.gz /usr/local/src/
 ADD http://wald.intevation.org/frs/download.php/1987/openvas-cli-1.4.0.tar.gz /usr/local/src/
 ADD http://wald.intevation.org/frs/download.php/2079/greenbone-security-assistant-6.0.3.tar.gz /usr/local/src/
+ADD http://wald.intevation.org/frs/download.php/1999/ospd-1.0.0.tar.gz /usr/local/src/
+ADD http://wald.intevation.org/frs/download.php/2145/ospd-1.0.1.tar.gz /usr/local/src/
+ADD http://wald.intevation.org/frs/download.php/2177/ospd-1.0.2.tar.gz /usr/local/src/
+ADD http://wald.intevation.org/frs/download.php/2005/ospd-ancor-1.0.0.tar.gz /usr/local/src/
+ADD http://wald.intevation.org/frs/download.php/2097/ospd-debsecan-1.0.0.tar.gz /usr/local/src/
+ADD http://wald.intevation.org/frs/download.php/2003/ospd-ovaldi-1.0.0.tar.gz /usr/local/src/
+ADD http://wald.intevation.org/frs/download.php/2149/ospd-paloalto-1.0b1.tar.gz /usr/local/src/
+ADD http://wald.intevation.org/frs/download.php/2004/ospd-w3af-1.0.0.tar.gz /usr/local/src/
+ADD http://wald.intevation.org/frs/download.php/2181/ospd-acunetix-1.0b1.tar.gz /usr/local/src/
 ADD http://nmap.org/dist/nmap-5.51.6.tgz /usr/local/src/
 ADD http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xml /tmp/
 
@@ -19,8 +28,8 @@ RUN find /usr/local/bin -type f -not -executable -exec chmod +x {} \;
 RUN apt-get update && apt-get install -y --no-install-recommends \
     alien bison build-essential clang cmake doxygen flex gnupg libgcrypt11-dev libglib2.0-dev libgnutls28-dev \
     libgpgme11-dev libhiredis-dev libksba-dev libldap2-dev libmicrohttpd-dev libpcap-dev libsqlite3-dev \
-    libssh-dev libxml2-dev libxslt1-dev net-tools nsis openssh-client pkg-config redis-server rpm rsync sqlfairy \
-    sqlite3 texlive-latex-base uuid-dev wget xmltoman xsltproc
+    libssh-dev libxml2-dev libxslt1-dev net-tools nsis openssh-client pkg-config python-pip redis-server rpm \
+    rsync sqlfairy sqlite3 texlive-latex-base uuid-dev wget xmltoman xsltproc
     
 RUN for SRC in openvas-libraries-8.0.3 openvas-manager-6.0.3 openvas-scanner-5.0.3 openvas-cli-1.4.0 \
                greenbone-security-assistant-6.0.3 ; \
@@ -31,6 +40,15 @@ RUN for SRC in openvas-libraries-8.0.3 openvas-manager-6.0.3 openvas-scanner-5.0
        make &&\
        make doc &&\
        make install ; \
+    done
+
+RUN for PIP in requests Pexpect ; do pip install ${PIP} ; done
+RUN for SRC in ospd-1.0.0 ospd-1.0.1 ospd-1.0.2 ospd-ancor-1.0.0 ospd-debsecan-1.0.0 ospd-ovaldi-1.0.0 \
+               ospd-paloalto-1.0b1 ospd-w3af-1.0.0 ospd-acunetix-1.0b1 ; \
+    do \
+        tar -C /usr/local/src -zxf /usr/local/src/${SRC}.tar.gz ; \
+	cd /usr/local/src/${SRC} ; \
+	python setup.py install ; \
     done
 
 RUN tar -C /usr/local/src -zxf /usr/local/src/nmap-5.51.6.tgz
