@@ -41,17 +41,3 @@ Login into [GSA](https://localhost/login/login.html)
 
 [Change this password](https://localhost/omp?cmd=edit_user&user_id=0c185d9e-9903-47d2-9eea-9a7521539e86)
 after your first login.
-
-### Check openVAS installation
-
-Connect to container
-
-```
-docker exec -it openvas /bin/bash
-```
-
-and run
-
-```
-checkopenvas8
-```

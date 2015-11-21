@@ -67,7 +67,6 @@ RUN echo 'C3B468D2288C68B9D526452248479FF648DB4530:6' | \
     gpg --homedir=/usr/local/etc/openvas/gnupg --import-ownertrust
 
 RUN echo "nasl_no_signature_check = no" >> /usr/local/etc/openvas/openvassd.conf
-RUN echo "alias checkopenvas8='/usr/local/bin/openvas-check-setup --v8'" >> /root/.bashrc
 RUN ln -s /usr/local/var/log/openvas /var/log
 
 COPY conf/redis.conf /etc/redis/redis.conf
@@ -78,6 +77,7 @@ RUN redis-server /etc/redis/redis.conf && \
 
 RUN openvassd && openvasmd && openvasmd --rebuild --progress -v
 RUN openvas-portnames-update /tmp/service-names-port-numbers.xml
+RUN openvas-check-setup --v8
 
 EXPOSE 80 443
 CMD ["/usr/local/bin/openvas8.run"]
