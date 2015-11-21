@@ -55,9 +55,3 @@ and run
 ```
 checkopenvas8
 ```
-
-## TODO
-
-Install those tools
-
-* niktos
