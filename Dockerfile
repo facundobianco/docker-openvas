@@ -26,7 +26,7 @@ COPY bin/* /usr/local/bin/
 RUN find /usr/local/bin -type f -not -executable -exec chmod +x {} \;
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    alien bison build-essential clang cmake doxygen flex gnupg libcurl4-gnutls-dev libgcrypt11-dev libglib2.0-dev libgnutls28-dev \
+    alien bison build-essential clang cmake doxygen flex gnupg libgcrypt11-dev libglib2.0-dev libgnutls28-dev \
     libgpgme11-dev libhiredis-dev libksba-dev libldap2-dev libmicrohttpd-dev libpcap-dev libsqlite3-dev \
     libssh-dev libxml2-dev libxslt1-dev net-tools nsis openssh-client pkg-config python-pip redis-server rpm \
     rsync sqlfairy sqlite3 texlive-latex-base uuid-dev wget xmltoman xsltproc
