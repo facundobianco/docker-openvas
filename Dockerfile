@@ -51,7 +51,7 @@ RUN for SRC in ospd-1.0.0 ospd-1.0.1 ospd-1.0.2 ospd-ancor-1.0.0 ospd-debsecan-1
 	python setup.py install ; \
     done
 
-RUN tar -C /usr/local/src -zxf /usr/local/src/nmap-5.51.6.tar.gz ; cd /usr/local/src/nmap-5.51.6 ; \
+RUN tar -C /usr/local/src -zxf /usr/local/src/nmap-5.51.6.tgz ; cd /usr/local/src/nmap-5.51.6 ; \
     ./configure && \
     make && \
     make install
